@@ -4,6 +4,8 @@ use std::fs::{self, Metadata};
 use std::convert::AsRef;
 use url::percent_encoding::percent_decode;
 
+use router;
+
 pub struct RequestedPath {
     pub path: PathBuf,
 }
@@ -15,9 +17,25 @@ fn decode_percents(string: &String) -> String {
 
 impl RequestedPath {
     pub fn new<P: AsRef<Path>>(root_path: P, request: &Request) -> RequestedPath {
-        let mut path = root_path.as_ref().to_path_buf();
-        let decoded_req_path = request.url.path.iter().map(decode_percents);
-        path.extend(decoded_req_path);
+//<<<<<<< HEAD
+//        let mut path = root_path.as_ref().to_path_buf();
+//        let decoded_req_path = request.url.path.iter().map(decode_percents);
+//        path.extend(decoded_req_path);
+//=======
+        let mut result = root_path.as_ref().to_path_buf();
+        let path = match request.extensions.get::<router::Router>() {
+            Some(router) => {
+                let route_path = router.find("path");
+                match route_path {
+                    Some(path) => path.split('/').collect(),
+                    None => request.url.path()
+                }
+            }
+            None => request.url.path()
+        };
+        let decoded_req_path = path.iter().map(decode_percents);
+        result.extend(decoded_req_path);
+//>>>>>>> 5a10a78... adds router option
 
         RequestedPath { path: path }
     }
