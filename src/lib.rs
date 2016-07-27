@@ -9,6 +9,8 @@ extern crate time;
 #[cfg(feature = "cache")]
 extern crate filetime;
 
+extern crate router;
+
 extern crate iron;
 #[macro_use]
 extern crate log;

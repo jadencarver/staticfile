@@ -13,6 +13,7 @@ cache = ["filetime"]
 
 [dependencies]
 iron = "0.4"
+router = "0.2"
 mount = "0.2"
 time = "0.1"
 log = "0.3"
