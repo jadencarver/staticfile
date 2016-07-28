@@ -14,7 +14,7 @@ cache = ["filetime"]
 [dependencies]
 iron = "0.3"
 mount = "0.1"
-router = "0.1"
+router = { version = ">=0.1.1", git = "https://github.com/jadencarver/router.git", branch = "0.1.1" }
 time = "0.1"
 log = "0.3"
 url = "0.5"
@@ -26,4 +26,3 @@ optional = true
 [dev-dependencies]
 iron-test = "0.3"
 hyper = "0.8"
-router = ">=0.1.1"
