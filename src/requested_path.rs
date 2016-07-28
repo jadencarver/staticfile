@@ -27,17 +27,19 @@ impl RequestedPath {
             Some(router) => {
                 let route_path = router.find("path");
                 match route_path {
-                    Some(path) => path.split('/').collect(),
-                    None => request.url.path()
+                    Some(path) => {
+                        path.split('/').map(|i| i.to_string()).collect()
+                    },
+                    None => request.url.path.clone()
                 }
             }
-            None => request.url.path()
+            None => request.url.path.clone()
         };
         let decoded_req_path = path.iter().map(decode_percents);
         result.extend(decoded_req_path);
 //>>>>>>> 5a10a78... adds router option
 
-        RequestedPath { path: path }
+        RequestedPath { path: result }
     }
 
     pub fn should_redirect(&self, metadata: &Metadata, request: &Request) -> bool {
